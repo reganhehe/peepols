@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     addContact() {
-      this.$store.commit("addContact", {
+      this.$store.dispatch("addContact", {
         contactName: this.contactName,
         nickname: this.nickname,
         relationship: this.relationship

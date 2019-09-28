@@ -24,7 +24,11 @@ export default new Vuex.Store({
     }
   },
   actions: {
-
+    addContact: (context, payload) => {
+      setTimeout(() => {
+        context.commit('addContact', payload);
+      },1000);
+    }
   },
   getters: {
     contacts: state => {
