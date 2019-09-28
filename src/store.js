@@ -5,29 +5,35 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    contacts: [
-      {
-        contactName: 'Thomas',
-        nickname: 'Tom',
-        relationship: 'work colleague'
-      },
-      {
-        contactName: 'Regan',
-        nickname: 'Regan',
-        relationship: 'work colleague'
-      },
-    ]
+    contacts: []
   },
   mutations: {
     addContact: (state, payload) => {
       state.contacts.push(payload);
+    },
+    setContacts: (state, payload) => {
+      state.contacts = payload;
     }
   },
   actions: {
     addContact: (context, payload) => {
-      setTimeout(() => {
-        context.commit('addContact', payload);
-      },1000);
+      Vue.http
+        .post("https://peepols-a152c.firebaseio.com/contact.json", payload)
+        .then(response => {
+          console.log(response);
+          context.commit('addContact', payload);
+        });;
+    },
+    getContacts: context => {
+      Vue.http.get('https://peepols-a152c.firebaseio.com/contact.json').then(response => {
+        return response.json();
+      }).then(data => {
+        const contactArray = [];
+        for (let key in data) {
+          contactArray.push(data[key]);
+        }
+        context.commit('setContacts', contactArray);
+      });
     }
   },
   getters: {

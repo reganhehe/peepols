@@ -2,9 +2,14 @@
   <div class="contact">
     <h1>This is the contact page</h1>
     <form>
-      <input name="contactName" type="text" v-model="contactName" placeholder="contactName" />
-      <input name="nickname" type="text" v-model="nickname" placeholder="nickname" />
-      <input name="relationship" type="text" v-model="relationship" placeholder="relationship" />
+      <input name="contactName" type="text" v-model="contact.contactName" placeholder="contactName" />
+      <input name="nickname" type="text" v-model="contact.nickname" placeholder="nickname" />
+      <input
+        name="relationship"
+        type="text"
+        v-model="contact.relationship"
+        placeholder="relationship"
+      />
     </form>
     <button @click="addContact">Add new contact</button>
     <hr />
@@ -27,9 +32,11 @@ import { mapGetters } from "vuex";
 export default {
   data() {
     return {
-      contactName: "",
-      nickname: "",
-      relationship: ""
+      contact: {
+        contactName: "",
+        nickname: "",
+        relationship: ""
+      }
     };
   },
   computed: {
@@ -39,12 +46,11 @@ export default {
   },
   methods: {
     addContact() {
-      this.$store.dispatch("addContact", {
-        contactName: this.contactName,
-        nickname: this.nickname,
-        relationship: this.relationship
-      });
+      this.$store.dispatch("addContact", this.contact);
     }
+  },
+  created(){
+    this.$store.dispatch("getContacts");
   }
 };
 </script>
